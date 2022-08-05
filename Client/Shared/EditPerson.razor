@@ -1,0 +1,48 @@
+﻿@inject IPersonService personService
+@if (person.Id == 0)
+{
+    <h3>Create a new Person</h3>
+}
+else
+{
+    <h3>Edit @person.FirstName @person.LastName</h3>
+}
+
+<EditForm Model="person" OnSubmit="HandleSubmit">
+    <InputText @bind-Value="person.FirstName" class="form-control" placeholder="First name"></InputText>
+    <br>
+    <InputText @bind-Value="person.LastName" class="form-control" placeholder="Last name"></InputText>
+    <br>
+    <InputNumber @bind-Value="person.Age" class="form-control" placeholder="Age"></InputNumber>
+    <br>
+    <InputText @bind-Value="person.Email" class="form-control" placeholder="Email"></InputText>
+    <br>
+    <InputText @bind-Value="person.PhoneNumber" class="form-control" placeholder="Phone number"></InputText>
+    <br>
+    <InputSelect @bind-Value="person.Gender">
+        @foreach (var gender in Enum.GetValues(typeof(GenderEnum)))
+        {
+            <option value="@gender">@gender</option>
+        }
+    </InputSelect>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    
+    [Parameter]
+    public Person person { get; set; } = new Person();
+
+    async void HandleSubmit()
+    {
+        if (person.Id == 0)
+        {
+            await personService.CreatePerson(person);
+        }
+        else 
+        {
+            await personService.UpdatePerson(person, person.Id);
+        }
+    }
+}

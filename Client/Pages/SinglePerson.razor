@@ -1,0 +1,24 @@
+﻿@page "/person/{id:int}"
+@inject IPersonService PersonService
+
+@if (person == null)
+{
+    <span>Reading data..</span>
+}
+else
+{
+    <h3>@person.FirstName @person.LastName</h3>
+    <span>@person.Age, @person.Gender</span>
+    <br>
+    <span>@person.PhoneNumber, @person.Email</span>
+}
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    Person person = null;
+
+    protected override async Task OnInitializedAsync() 
+    {
+        person = await PersonService.GetPerson(Id);
+    }
+}

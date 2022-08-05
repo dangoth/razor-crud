@@ -1,0 +1,56 @@
+﻿@page "/persons"
+@inject IPersonService PersonService
+@implements IDisposable
+
+<h3>Persons</h3>
+@if (PersonService.Persons.Count == 0)
+{
+    <span>Reading data..</span>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in PersonService.Persons)
+            {
+                <tr>
+                    <td>@person.FirstName</td>
+                    <td>@person.LastName</td>
+                    <td>@person.Gender</td>
+                    <td>@person.Age</td>
+                    <td>@person.PhoneNumber</td>
+                    <td>@person.Email</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="(() => EditPerson(person.Id))">Edit</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="(() => DeletePerson(person.Id))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<EditPerson person="personToEdit"></EditPerson>
+@code {
+    Person personToEdit = new Person();
+    protected override async Task OnInitializedAsync()
+    {
+        await PersonService.GetPersons();
+        PersonService.OnChange += StateHasChanged;
+    }
+    void EditPerson(int id) => personToEdit = PersonService.Persons.Find(p => p.Id == id);
+    void DeletePerson(int id) => PersonService.DeletePerson(id);
+    public void Dispose() => PersonService.OnChange -= StateHasChanged;
+}
