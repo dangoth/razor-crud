@@ -16,7 +16,6 @@ else
     [Parameter]
     public int Id { get; set; }
     Person person = null;
-
     protected override async Task OnInitializedAsync() 
     {
         person = await PersonService.GetPerson(Id);

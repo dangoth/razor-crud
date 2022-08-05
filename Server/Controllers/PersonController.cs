@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PersonDB.Server.Data;
 using PersonDB.Shared;
 
 namespace PersonDB.Server.Controllers;
@@ -7,44 +8,44 @@ namespace PersonDB.Server.Controllers;
 [ApiController]
 public class PersonController : ControllerBase
 {
-    static List<Person> persons = new List<Person> {
-        new Person{Id = 1, FirstName = "Peter", LastName = "Johns", Gender = GenderEnum.Male, Email = "peter.johns@gmail.com", PhoneNumber = "00312642236", Age = 32 },
-        new Person{Id = 2, FirstName = "Joe", LastName = "Walsh", Gender = GenderEnum.Male, Email = "joe23@gmail.com", PhoneNumber = "0048125629349", Age = 28 }
-    };
+    private readonly DataContext _context;
+    public PersonController(DataContext context)
+    {
+        _context = context;
+    }
     [HttpGet]
     public async Task<IActionResult> GetPersons()
     {
-        return Ok(persons);
-    }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetSinglePerson(int id)
-    {
-        var person = persons.FirstOrDefault(p => p.Id == id);
-        if (person == null) return NotFound("Incorrect person ID");
-        return Ok(person);
+        return Ok(await _context.Persons.ToListAsync());
     }
    [HttpPost]
     public async Task<IActionResult> CreatePerson(Person person)
     {
-        person.Id = persons.Max(p => p.Id + 1);
-        persons.Add(person);
-        return Ok(persons);
+        _context.Persons.Add(person);
+        await _context.SaveChangesAsync();
+        return Ok(await _context.Persons.ToListAsync());
     }
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePerson(Person person, int id)
     {
-        var personToUpdate = persons.FirstOrDefault(p => p.Id == id);
+        var personToUpdate = await _context.Persons.FirstOrDefaultAsync(p => p.Id == id);
         if (personToUpdate == null) return NotFound("Incorrect person ID");
-        var index = persons.IndexOf(personToUpdate);
-        persons[index] = person;
-        return Ok(persons);
+        personToUpdate.FirstName = person.FirstName;
+        personToUpdate.LastName = person.LastName;
+        personToUpdate.Gender = person.Gender;
+        personToUpdate.Email = person.Email;
+        personToUpdate.PhoneNumber = person.PhoneNumber;
+        personToUpdate.Age = person.Age;
+        await _context.SaveChangesAsync();
+        return Ok(await _context.Persons.ToListAsync());
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePerson(int id)
     {
-        var personToDelete = persons.FirstOrDefault(p => p.Id == id);
+        var personToDelete = await _context.Persons.FirstOrDefaultAsync(p => p.Id == id);
         if (personToDelete == null) return NotFound("Incorrect person ID");
-        persons.Remove(personToDelete);
-        return Ok(persons);
+        _context.Persons.Remove(personToDelete);
+        await _context.SaveChangesAsync();
+        return Ok(await _context.Persons.ToListAsync());
     }
 }

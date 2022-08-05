@@ -12,18 +12,15 @@ public class PersonService : IPersonService
     }
     public List<Person> Persons { get; set; } = new List<Person>();
     public event Action OnChange;
-
     public async Task<List<Person>> GetPersons()
     {
         Persons = await _httpClient.GetFromJsonAsync<List<Person>>("api/person");
         return Persons;
     }
-
     public async Task<Person> GetPerson(int id)
     {
         return await _httpClient.GetFromJsonAsync<Person>($"api/person/{id}");
     }
-
     public async Task<List<Person>> CreatePerson(Person person)
     {
         var result = await _httpClient.PostAsJsonAsync<Person>($"api/person", person);
@@ -31,7 +28,6 @@ public class PersonService : IPersonService
         OnChange.Invoke();
         return Persons;
     }
-
     public async Task<List<Person>> UpdatePerson(Person person, int id)
     {
         var result = await _httpClient.PutAsJsonAsync($"api/person/{id}", person);
@@ -39,7 +35,6 @@ public class PersonService : IPersonService
         OnChange.Invoke();
         return Persons;
     }
-
     public async Task<List<Person>> DeletePerson(int id)
     {
         var result = await _httpClient.DeleteAsync($"api/person/{id}");

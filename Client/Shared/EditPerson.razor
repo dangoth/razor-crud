@@ -7,8 +7,9 @@ else
 {
     <h3>Edit @person.FirstName @person.LastName</h3>
 }
-
-<EditForm Model="person" OnSubmit="HandleSubmit">
+<EditForm Model="person" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
     <InputText @bind-Value="person.FirstName" class="form-control" placeholder="First name"></InputText>
     <br>
     <InputText @bind-Value="person.LastName" class="form-control" placeholder="Last name"></InputText>
@@ -26,14 +27,13 @@ else
         }
     </InputSelect>
     <br>
+    <br>
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
 @code {
-    
     [Parameter]
     public Person person { get; set; } = new Person();
-
     async void HandleSubmit()
     {
         if (person.Id == 0)
