@@ -1,0 +1,327 @@
+{
+	"info": {
+		"_postman_id": "e433f009-144f-42f3-af35-d36d325954ad",
+		"name": "Blazor CRUD API tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Correct Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\":\"Joe\",\r\n    \"LastName\":\"Momma\",\r\n    \"Gender\":0,\r\n    \"Age\":15,\r\n    \"PhoneNumber\":\"1233452424\",\r\n    \"Email\":\"a@aa.aa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{base_url}}/person",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Name not provided",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Not providing a name throws an error\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Please enter a first\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"LastName\":\"Stillwell\",\r\n    \"Gender\":0,\r\n    \"Age\":15,\r\n    \"PhoneNumber\":\"1233452424\",\r\n    \"Email\":\"a@aa.aa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{base_url}}/person",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Last name not provided",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Not providing a name throws an error\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Please enter a first\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"LastName\":\"Stillwell\",\r\n    \"Gender\":0,\r\n    \"Age\":15,\r\n    \"PhoneNumber\":\"1233452424\",\r\n    \"Email\":\"a@aa.aa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{base_url}}/person",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Incorrect age",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Not providing a name throws an error\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Please enter a first\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"LastName\":\"Stillwell\",\r\n    \"Gender\":0,\r\n    \"Age\":15,\r\n    \"PhoneNumber\":\"1233452424\",\r\n    \"Email\":\"a@aa.aa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{base_url}}/person",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Incorrect email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Not providing a name throws an error\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Please enter a first\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"LastName\":\"Stillwell\",\r\n    \"Gender\":0,\r\n    \"Age\":15,\r\n    \"PhoneNumber\":\"1233452424\",\r\n    \"Email\":\"a@aa.aa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{base_url}}/person",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "No phone number provided",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Not providing a name throws an error\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Please enter a first\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"LastName\":\"Stillwell\",\r\n    \"Gender\":0,\r\n    \"Age\":15,\r\n    \"PhoneNumber\":\"1233452424\",\r\n    \"Email\":\"a@aa.aa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{base_url}}/person",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Correct Put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"firstName\": \"ChangedJoe\",\r\n    \"lastName\": \"ChangedWalsh\",\r\n    \"gender\": 1,\r\n    \"age\": 32,\r\n    \"phoneNumber\": \"Changed0048125629349\",\r\n    \"email\": \"Changedjoe23@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{base_url}}/person/1",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"person",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{base_url}}/person/2",
+					"protocol": "https",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"person",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
