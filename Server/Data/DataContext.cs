@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonDB.Shared;
+using PersonDB.Shared.Models;
 
 namespace PersonDB.Server.Data;
 
@@ -16,6 +17,15 @@ public class DataContext : DbContext
             new Person { Id = 2, FirstName = "Joe", LastName = "Walsh", Gender = GenderEnum.Male, Email = "joe23@gmail.com", PhoneNumber = "0048125629349", Age = 28 },
             new Person { Id = 3, FirstName = "Volodymyr", LastName = "Zelensky", Gender = GenderEnum.Male, Email = "Presidentpressoffice@apu.gov.ua", PhoneNumber = "00380442841915", Age = 44 }
             );
+        modelBuilder.Entity<Author>()
+            .HasOne(a => a.Biography)
+            .WithOne(b => b.Author);
+        modelBuilder.Entity<Book>()
+            .HasOne(a => a.Author)
+            .WithMany(b => b.Books);
+        modelBuilder.Entity<Author>()
+            .HasMany(a => a.CollaborationBooks)
+            .WithMany(b => b.Authors);
     }
     public DbSet<Person> Persons { get; set; }
 }
